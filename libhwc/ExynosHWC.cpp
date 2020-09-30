@@ -960,12 +960,12 @@ int exynos5_getDisplayAttributes(struct hwc_composer_device_1 *dev,
     for (int i = 0; attributes[i] != HWC_DISPLAY_NO_ATTRIBUTE; i++) {
 #if defined(USES_DUAL_DISPLAY)
         if (disp == HWC_DISPLAY_PRIMARY0)
-            values[i] = pdev->primaryDisplay->getDisplayAttributes(attributes[i]);
+            values[i] = pdev->primaryDisplay->getDisplayAttributes(attributes[i], config);
         else if (disp == HWC_DISPLAY_PRIMARY1)
-            values[i] = pdev->secondaryDisplay->getDisplayAttributes(attributes[i]);
+            values[i] = pdev->secondaryDisplay->getDisplayAttributes(attributes[i], config);
 #else
         if (disp == HWC_DISPLAY_PRIMARY)
-            values[i] = pdev->primaryDisplay->getDisplayAttributes(attributes[i]);
+            values[i] = pdev->primaryDisplay->getDisplayAttributes(attributes[i], config);
 #endif
         else if (disp == HWC_DISPLAY_EXTERNAL) {
             if (hwcHasApiVersion((hwc_composer_device_1_t*)dev, HWC_DEVICE_API_VERSION_1_4))
@@ -975,7 +975,7 @@ int exynos5_getDisplayAttributes(struct hwc_composer_device_1 *dev,
         }
 #ifdef USES_VIRTUAL_DISPLAY
         else if (disp == HWC_DISPLAY_VIRTUAL)
-            values[i] = pdev->virtualDisplay->getDisplayAttributes(attributes[i]);
+            values[i] = pdev->virtualDisplay->getDisplayAttributes(attributes[i], config);
 #endif
         else {
             ALOGE("unknown display type %u", disp);
