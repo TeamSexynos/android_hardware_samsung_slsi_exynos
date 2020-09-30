@@ -2,6 +2,7 @@
 #include "ExynosHWCUtils.h"
 #include <utils/misc.h>
 
+#if 0
 bool winConfigChanged(s3c_fb_win_config *c1, s3c_fb_win_config *c2)
 {
     return c1->state != c2->state ||
@@ -16,7 +17,13 @@ bool winConfigChanged(s3c_fb_win_config *c1, s3c_fb_win_config *c2)
             c1->blending != c2->blending ||
             c1->plane_alpha != c2->plane_alpha;
 }
-
+#else
+bool winConfigChanged(s3c_fb_win_config *c1 __unused, s3c_fb_win_config *c2 __unused)
+{
+    /* Force this check to always return true, otherwise we have unreliable retire fences */
+    return true;
+}
+#endif
 void dumpConfig(s3c_fb_win_config &c)
 {
     ALOGV("\tstate = %u", c.state);
@@ -139,17 +146,17 @@ int ExynosDisplay::inverseWinMap(int windowIndex, int totalOverlays)
     return windowIndex;
 }
 
-int ExynosDisplay::prepare(hwc_display_contents_1_t *contents)
+int ExynosDisplay::prepare(hwc_display_contents_1_t *contents __unused)
 {
     return 0;
 }
 
-int ExynosDisplay::set(hwc_display_contents_1_t *contents)
+int ExynosDisplay::set(hwc_display_contents_1_t *contents __unused)
 {
     return 0;
 }
 
-void ExynosDisplay::dump(android::String8& result)
+void ExynosDisplay::dump(android::String8& result __unused)
 {
 }
 

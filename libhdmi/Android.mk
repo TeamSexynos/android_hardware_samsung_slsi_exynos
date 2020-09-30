@@ -16,12 +16,14 @@ LOCAL_PATH:= $(call my-dir)
 include $(CLEAR_VARS)
 
 LOCAL_PRELINK_MODULE := false
-LOCAL_SHARED_LIBRARIES := liblog libutils libcutils libexynosutils libexynosv4l2 libhwcutils libexynosdisplay libmpp
+LOCAL_SHARED_LIBRARIES := liblog libion libutils libcutils libexynosutils libexynosv4l2 libhwcutils libexynosdisplay libmpp
 
 LOCAL_CFLAGS += -DLOG_TAG=\"hdmi\"
 LOCAL_CFLAGS += -DHLOG_CODE=2
+LOCAL_CFLAGS += -Wno-missing-field-initializers
 
 LOCAL_C_INCLUDES := \
+	$(TARGET_OUT_INTERMEDIATES)/KERNEL_OBJ/usr/include \
 	$(TOP)/hardware/samsung_slsi/$(TARGET_SOC)/include \
 	$(TOP)/hardware/samsung_slsi/$(TARGET_BOARD_PLATFORM)/include \
 	$(LOCAL_PATH)/../include \
@@ -39,6 +41,9 @@ LOCAL_SHARED_LIBRARIES += libvirtualdisplay
 LOCAL_C_INCLUDES += $(TOP)/hardware/samsung_slsi/exynos/libvirtualdisplay
 LOCAL_C_INCLUDES += $(TOP)/hardware/samsung_slsi/$(TARGET_SOC)/libvirtualdisplaymodule
 endif
+
+LOCAL_ADDITIONAL_DEPENDENCIES := \
+	$(TARGET_OUT_INTERMEDIATES)/KERNEL_OBJ/usr
 
 LOCAL_SRC_FILES := \
 	ExynosExternalDisplay.cpp dv_timings.c
